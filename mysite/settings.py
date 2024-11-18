@@ -75,8 +75,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',  # Use MySQL engine for MariaDB
+        'NAME': 'lsem',                       # Replace with your database name
+        'USER': 'lsem',                       # Replace with your MariaDB username
+        'PASSWORD': 'engr450lsem',          # Replace with your MariaDB password
+        'HOST': '52.90.175.249',            # Replace with the EC2 instance's public IP
+        'PORT': '3306',                       # Default MariaDB/MySQL port
     }
 }
 
@@ -105,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Mexico_City'
 
 USE_I18N = True
 
