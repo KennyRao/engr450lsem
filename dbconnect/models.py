@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+from django.contrib import admin
 
 class StlDistrict(models.Model):
     county_district_code = models.IntegerField(primary_key=True)
@@ -9,8 +10,14 @@ class StlDistrict(models.Model):
     class Meta:
         db_table = 'stl_district'  # Specify the existing table name
 
+    @admin.display(
+        ordering="county_district_code",
+        description="district_name",
+    )
+
     def __str__(self):
         return self.district_name
+
 
 class StlDisciplineIncidents(models.Model):
     year = models.IntegerField()
@@ -98,6 +105,10 @@ class StlDisciplineIncidents(models.Model):
             return (self.discipline_more_10_days / self.enrollment_grades_k_12) * 100
         return None
 
+    def __str__(self):
+        return f"Year {self.year} - District {self.county_district_code} Discipline Incidents"
+
+
 class StlDemographic(models.Model):
     year = models.IntegerField()
     county_district_code = models.ForeignKey('StlDistrict', on_delete=models.CASCADE, to_field='county_district_code')
@@ -168,6 +179,9 @@ class StlDemographic(models.Model):
     def iep_incidence_rate(self):
         return (self.iep_schoolage_childcount / self.enrollment_grades_k_12) * 100 if self.enrollment_grades_k_12 != 0 else 0
 
+    def __str__(self):
+        return f"Year {self.year} - District {self.county_district_code} Demographics"
+
 class StlActScore(models.Model):
     year = models.IntegerField()
     county_district_code = models.ForeignKey('StlDistrict', on_delete=models.CASCADE, to_field='county_district_code')
@@ -192,6 +206,9 @@ class StlActScore(models.Model):
     def graduates_who_took_act_and_scored_above_national_avg_pct(self):
         return (self.graduates_with_act_score_above_national_avg / self.act_tests_administered) * 100 if self.act_tests_administered != 0 else 0
 
+    def __str__(self):
+        return f"Year {self.year} - District {self.county_district_code} ACT Scores"
+
 class StlStudentStaffRatio(models.Model):
     year = models.IntegerField()
     county_district_code = models.ForeignKey('StlDistrict', on_delete=models.CASCADE, to_field='county_district_code')
@@ -202,5 +219,8 @@ class StlStudentStaffRatio(models.Model):
     class Meta:
         db_table = 'stl_student_staff_ratio'
         unique_together = ('year', 'county_district_code')
+
+    def __str__(self):
+        return f"Year {self.year} - District {self.county_district_code} Student/Staff Ratios"
 
 
