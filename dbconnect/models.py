@@ -14,7 +14,7 @@ class StlDistrict(models.Model):
 
 class StlDisciplineIncidents(models.Model):
     year = models.IntegerField()
-    county_district_code = models.ForeignKey(StlDistrict, on_delete=models.CASCADE, to_field='county_district_code')
+    county_district_code = models.ForeignKey('StlDistrict', on_delete=models.CASCADE, to_field='county_district_code')
     enrollment_grades_k_12 = models.IntegerField()
     discipline_incidents = models.IntegerField()
     discipline_alcohol = models.IntegerField()
@@ -100,7 +100,7 @@ class StlDisciplineIncidents(models.Model):
 
 class StlDemographic(models.Model):
     year = models.IntegerField()
-    county_district_code = models.ForeignKey(StlDistrict, on_delete=models.CASCADE, to_field='county_district_code')
+    county_district_code = models.ForeignKey('StlDistrict', on_delete=models.CASCADE, to_field='county_district_code')
     enrollment_grades_k_12 = models.IntegerField()
     january_membership = models.DecimalField(max_digits=11, decimal_places=2)
     lunch_count_free_reduced = models.DecimalField(max_digits=11, decimal_places=2)
@@ -170,7 +170,7 @@ class StlDemographic(models.Model):
 
 class StlActScore(models.Model):
     year = models.IntegerField()
-    county_district_code = models.ForeignKey(StlDistrict, on_delete=models.CASCADE, to_field='county_district_code')
+    county_district_code = models.ForeignKey('StlDistrict', on_delete=models.CASCADE, to_field='county_district_code')
     act_tests_administered = models.IntegerField()
     graduates = models.IntegerField()
     graduates_with_act_score_above_national_avg = models.IntegerField()
@@ -194,7 +194,7 @@ class StlActScore(models.Model):
 
 class StlStudentStaffRatio(models.Model):
     year = models.IntegerField()
-    county_district_code = models.ForeignKey(StlDistrict, on_delete=models.CASCADE, to_field='county_district_code')
+    county_district_code = models.ForeignKey('StlDistrict', on_delete=models.CASCADE, to_field='county_district_code')
     students_per_admin_ratio = models.IntegerField()
     students_per_classrm_tch_ratio = models.IntegerField()
     students_per_teacher_ratio = models.IntegerField()
