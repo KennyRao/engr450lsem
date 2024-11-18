@@ -14,7 +14,7 @@ class StlDistrict(models.Model):
 
 class StlDisciplineIncidents(models.Model):
     year = models.IntegerField()
-    county_district_code = models.ForeignKey('StlDistrict', on_delete=models.CASCADE, to_field='county_district_code')
+    county_district_code = models.ForeignKey(StlDistrict, on_delete=models.CASCADE, to_field='county_district_code')
     enrollment_grades_k_12 = models.IntegerField()
     discipline_incidents = models.IntegerField()
     discipline_alcohol = models.IntegerField()
@@ -100,7 +100,7 @@ class StlDisciplineIncidents(models.Model):
 
 class StlDemographic(models.Model):
     year = models.IntegerField()
-    county_district_code = models.IntegerField()
+    county_district_code = models.ForeignKey(StlDistrict, on_delete=models.CASCADE, to_field='county_district_code')
     enrollment_grades_k_12 = models.IntegerField()
     january_membership = models.DecimalField(max_digits=11, decimal_places=2)
     lunch_count_free_reduced = models.DecimalField(max_digits=11, decimal_places=2)
@@ -115,6 +115,10 @@ class StlDemographic(models.Model):
     ell_lep_students_enrolled_k_12 = models.IntegerField()
     ell_lep_students_enrolled_pk = models.IntegerField()
     iep_schoolage_childcount = models.IntegerField()
+
+    class Meta:
+        db_table = 'stl_demographic'
+        unique_together = ('year', 'county_district_code')
 
     @property
     def lunch_count_free_reduced_pct(self):
@@ -164,12 +168,9 @@ class StlDemographic(models.Model):
     def iep_incidence_rate(self):
         return (self.iep_schoolage_childcount / self.enrollment_grades_k_12) * 100 if self.enrollment_grades_k_12 != 0 else 0
 
-    class Meta:
-        primary_key = ('year', 'county_district_code')
-
 class StlActScore(models.Model):
     year = models.IntegerField()
-    county_district_code = models.IntegerField()
+    county_district_code = models.ForeignKey(StlDistrict, on_delete=models.CASCADE, to_field='county_district_code')
     act_tests_administered = models.IntegerField()
     graduates = models.IntegerField()
     graduates_with_act_score_above_national_avg = models.IntegerField()
@@ -179,6 +180,10 @@ class StlActScore(models.Model):
     act_reading_score = models.DecimalField(max_digits=3, decimal_places=1)
     act_science_score = models.DecimalField(max_digits=3, decimal_places=1)
 
+    class Meta:
+        db_table = 'stl_act_score'
+        unique_together = ('year', 'county_district_code')
+
     @property
     def graduates_with_act_score_above_national_avg_pct(self):
         return (self.graduates_with_act_score_above_national_avg / self.graduates) * 100 if self.graduates != 0 else 0
@@ -187,17 +192,15 @@ class StlActScore(models.Model):
     def graduates_who_took_act_and_scored_above_national_avg_pct(self):
         return (self.graduates_with_act_score_above_national_avg / self.act_tests_administered) * 100 if self.act_tests_administered != 0 else 0
 
-    class Meta:
-        primary_key = ('year', 'county_district_code')
-
 class StlStudentStaffRatio(models.Model):
     year = models.IntegerField()
-    county_district_code = models.IntegerField()
+    county_district_code = models.ForeignKey(StlDistrict, on_delete=models.CASCADE, to_field='county_district_code')
     students_per_admin_ratio = models.IntegerField()
     students_per_classrm_tch_ratio = models.IntegerField()
     students_per_teacher_ratio = models.IntegerField()
 
     class Meta:
-        primary_key = ('year', 'county_district_code')
+        db_table = 'stl_student_staff_ratio'
+        unique_together = ('year', 'county_district_code')
 
 
